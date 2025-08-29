@@ -1,15 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UiView : MonoBehaviour
 {
 
-    [Header("UI VIEW elements")] [SerializeField]
+    [Header("UI VIEW elements")]
+    [SerializeField]
     private bool UnpauseOnClose = false;
 
     [SerializeField] private bool CloseOnNewView = true;
     [SerializeField] private Button BackButon;
+    [SerializeField] public GameObject SelectedOnView;
 
     private UiView _parentView;
 
@@ -50,22 +53,29 @@ public class UiView : MonoBehaviour
         if (onBackButtonAction != null) BackButon.onClick.AddListener(() => onBackButtonAction());
 
         if (!gameObject.activeSelf) this.ActiveView(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(SelectedOnView);
     }
 
     public void DisableView()
     {
+        EventSystem.current.SetSelectedGameObject(null);
+
         if (_parentView != null)
         {
             _parentView.ActiveView();
         }
-        
-        if (UnpauseOnClose) GameControlller.Instance.IsPaused = false;
+
+        if (UnpauseOnClose) GameControlller.Instance.UnPause();
 
         this.ActiveView(false);
     }
 
     public void DestroyView()
     {
+        EventSystem.current.SetSelectedGameObject(null);
+
         if (_parentView != null)
         {
             _parentView.ActiveView();

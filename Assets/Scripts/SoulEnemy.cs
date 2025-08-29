@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SoulEnemy : MonoBehaviour, IEnemy
 {
+    [SerializeField] private GameObject InteractionCanvas;
     [SerializeField] private GameObject InteractionPanelObject;
     [SerializeField] private GameObject ActionsPanelObject;
     [SerializeField] private SpriteRenderer EnemySpriteRenderer;
@@ -10,9 +12,22 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     public void SetupEnemy(Sprite sprite, SpawnPoint spawnPoint)
     {
+        GameControlller.Instance.OnPaused.AddListener(() => OnPausedEventHandler());
+        GameControlller.Instance.OnUnPaused.AddListener(() => OnUnPausedEventHandler());
+
         EnemySpriteRenderer.sprite = sprite;
         _enemyPosition = spawnPoint;
         gameObject.SetActive(true);
+    }
+
+    private void OnPausedEventHandler()
+    {
+        InteractionCanvas.SetActive(false);
+    }
+
+    private void OnUnPausedEventHandler()
+    {
+        InteractionCanvas.SetActive(true);
     }
 
     public SpawnPoint GetEnemyPosition()

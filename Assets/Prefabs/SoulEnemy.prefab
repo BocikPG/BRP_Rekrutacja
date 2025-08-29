@@ -188,7 +188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2741614182214620690
 Transform:
   m_ObjectHideFlags: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 674bdd931343dd94dbeb2fdfe7d5a299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractionCanvas: {fileID: 2741614183285796705}
   InteractionPanelObject: {fileID: 2741614181772860647}
   ActionsPanelObject: {fileID: 3644848724400825762}
   EnemySpriteRenderer: {fileID: 2741614182936948965}
@@ -416,7 +417,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2741614183285796711
 MonoBehaviour:
   m_ObjectHideFlags: 0

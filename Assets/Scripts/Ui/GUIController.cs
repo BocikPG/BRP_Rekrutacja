@@ -51,7 +51,7 @@ public class GUIController : MonoBehaviour
         viewToActive.ActiveView(() => ActiveInGameGUI(true));
 
         ActiveInGameGUI(false);
-        GameControlller.Instance.IsPaused = true;
+        GameControlller.Instance.Pause();
     }
 
     public void ButtonQuit()

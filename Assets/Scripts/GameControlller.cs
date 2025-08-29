@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 public enum GameLocalization
 {
@@ -32,6 +34,9 @@ public class GameControlller : MonoBehaviour
 
     #endregion
 
+    public UnityEvent OnPaused = new();
+    public UnityEvent OnUnPaused = new();
+
     [SerializeField] private GameLocalization currentGameLocalization;
 
     public GameLocalization CurrentGameLocalization
@@ -45,17 +50,27 @@ public class GameControlller : MonoBehaviour
 
     public bool IsPaused
     {
-
         get => _isPaused;
-        set
-        {
-            _isPaused = value;
-            Time.timeScale = _isPaused ? 0f : 1f;
-        }
     }
 
     public bool IsCurrentLocalization(GameLocalization localization)
     {
         return CurrentGameLocalization == localization;
+    }
+
+    internal void Pause()
+    {
+        _isPaused = true;
+        Time.timeScale = 0f;
+
+        OnPaused.Invoke();
+    }
+
+    internal void UnPause()
+    {
+        _isPaused = false;
+        Time.timeScale = 1f;
+
+        OnUnPaused.Invoke();
     }
 }

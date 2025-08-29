@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryView : UiView
@@ -25,13 +26,21 @@ public class InventoryView : UiView
 
     private void InitializeInventoryItems()
     {
+        SoulInformation firstSoul = null;
         for (int i = 0, j = SoulController.Instance.Souls.Count; i < j; i++)
         {
             SoulInformation newSoul = Instantiate(SoulItemPlaceHolder.gameObject, _contentParent).GetComponent<SoulInformation>();
             newSoul.SetSoulItem(SoulController.Instance.Souls[i], () => SoulItem_OnClick(newSoul));
+
+            if(firstSoul == null)
+            {
+                firstSoul = newSoul;
+            }
         }
 
         SoulItemPlaceHolder.gameObject.SetActive(false);
+
+        SelectedOnView = firstSoul.gameObject;
     }
 
     private void OnEnable()
