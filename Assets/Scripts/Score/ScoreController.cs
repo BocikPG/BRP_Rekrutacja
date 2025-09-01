@@ -7,24 +7,25 @@ public class ScoreController : MonoBehaviour
 {
 	#region Singleton
 
-    private static ScoreController _instance;
+	private static ScoreController _instance;
 
-    public static ScoreController Instance
-    {
-        get
-        {
-            if (_instance == null) _instance = FindFirstObjectByType<ScoreController>();
-            return _instance;
-        }
-        set => _instance = value;
-    }
+	public static ScoreController Instance
+	{
+		get
+		{
+			if (_instance == null) _instance = FindFirstObjectByType<ScoreController>();
+			return _instance;
+		}
+		set => _instance = value;
+	}
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+	private void Awake()
+	{
+		Instance = this;
+		GameEvents.EnemyKilled += OnEnemyKilled;
+	}
 
-    #endregion
+	#endregion
 
 	[HideInInspector] public UnityEvent<long> OnScoreChanged = new();
 
