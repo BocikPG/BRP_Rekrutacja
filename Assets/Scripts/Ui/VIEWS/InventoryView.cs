@@ -112,6 +112,15 @@ public class InventoryView : UiView
                 Confirm_OnClick = () => UseCurrentSoul(isInCorrectLocalization)
             };
             UseButton.onClick.AddListener(() => GUIController.Instance.ShowPopUpMessage(popUpInfo));
+
+            if(!isInCorrectLocalization)
+            {
+                UseButton.interactable = false;
+            }
+            else
+            {
+                UseButton.interactable = true;
+            }
         }
         UseButton.gameObject.SetActive(active);
     }
