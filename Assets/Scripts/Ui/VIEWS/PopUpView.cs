@@ -29,6 +29,7 @@ public class PopUpView : UiView
         ClearPopUp();
         LabelText.text = popUpInfo.Header;
         MessageText.text = popUpInfo.Message;
+        SetParentView(popUpInfo.Parent);
 
         if (popUpInfo.UseOneButton)
         {
@@ -58,4 +59,5 @@ public struct PopUpInformation
     public string Header;
     public string Message;
     public Action Confirm_OnClick;
+    public UiView Parent;
 }
