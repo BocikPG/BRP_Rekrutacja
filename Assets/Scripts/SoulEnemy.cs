@@ -5,8 +5,11 @@ public class SoulEnemy : MonoBehaviour, IEnemy
     [SerializeField] private GameObject InteractionPanelObject;
     [SerializeField] private GameObject ActionsPanelObject;
     [SerializeField] private SpriteRenderer EnemySpriteRenderer;
+    [SerializeField] private long ScoreAfterKill;
 
     private SpawnPoint _enemyPosition;
+
+    public long Score { get => ScoreAfterKill; }
 
     public void SetupEnemy(Sprite sprite, SpawnPoint spawnPoint)
     {
@@ -78,4 +81,5 @@ public interface IEnemy
 {
     SpawnPoint GetEnemyPosition();
     GameObject GetEnemyObject();
+    long Score { get;}
 }
