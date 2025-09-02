@@ -6,10 +6,12 @@ public class SoulEnemy : MonoBehaviour, IEnemy
     [SerializeField] private GameObject ActionsPanelObject;
     [SerializeField] private SpriteRenderer EnemySpriteRenderer;
     [SerializeField] private long ScoreAfterKill;
+    [SerializeField] private WeaponEnum Weakness;
 
     private SpawnPoint _enemyPosition;
 
     public long Score { get => ScoreAfterKill; }
+    public bool WasKilledWithWeakness { get; set; }
 
     public void SetupEnemy(Sprite sprite, SpawnPoint spawnPoint)
     {
@@ -44,16 +46,12 @@ public class SoulEnemy : MonoBehaviour, IEnemy
         ActionsPanelObject.SetActive(active);
     }
 
-    private void UseBow()
+    private void UseWeapon(WeaponEnum weapon)
     {
-        // USE BOW
-        GameEvents.EnemyKilled?.Invoke(this);
-    }
+        if(Weakness == weapon) WasKilledWithWeakness = true;
+        else WasKilledWithWeakness = false;
 
-    private void UseSword()
-    {
         GameEvents.EnemyKilled?.Invoke(this);
-        // USE SWORD
     }
 
     #region OnClicks
@@ -65,21 +63,28 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     public void Bow_OnClick()
     {
-        UseBow();
+        UseWeapon(WeaponEnum.BOW);
     }
 
     public void Sword_OnClick()
     {
-        UseSword();
+        UseWeapon(WeaponEnum.SWORD);
     }
 
     #endregion
 }
 
+enum WeaponEnum
+{
+    NONE,
+    BOW,
+    SWORD,
+}
 
 public interface IEnemy
 {
     SpawnPoint GetEnemyPosition();
     GameObject GetEnemyObject();
     long Score { get;}
+    bool WasKilledWithWeakness { get; set; }
 }

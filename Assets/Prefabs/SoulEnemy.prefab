@@ -222,6 +222,7 @@ MonoBehaviour:
   ActionsPanelObject: {fileID: 3644848724400825762}
   EnemySpriteRenderer: {fileID: 2741614182936948965}
   ScoreAfterKill: 50
+  Weakness: 0
 --- !u!1 &2741614182936948960
 GameObject:
   m_ObjectHideFlags: 0

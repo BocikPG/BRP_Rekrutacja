@@ -6,7 +6,7 @@ public class EnenmiesController : MonoBehaviour
 {
     [SerializeField] private List<Sprite> AllEnemies;
     [SerializeField] private List<SpawnPoint> SpawnPoints;
-    [SerializeField] private GameObject EnemyPrefab;
+    [SerializeField] private List<GameObject> EnemyPrefabList;
 
     private int _maxEnemies = 3;
     private int _currentEnemies = 0;
@@ -82,7 +82,7 @@ public class EnenmiesController : MonoBehaviour
         if (freeSpawnPointIndex == -1) return;
         
         SpawnPoints[freeSpawnPointIndex].IsOccupied = true;
-        SoulEnemy enemy = Instantiate(EnemyPrefab, SpawnPoints[freeSpawnPointIndex].Position.position, Quaternion.identity, transform).GetComponent<SoulEnemy>();
+        SoulEnemy enemy = Instantiate(EnemyPrefabList[Random.Range(0,EnemyPrefabList.Count)], SpawnPoints[freeSpawnPointIndex].Position.position, Quaternion.identity, transform).GetComponent<SoulEnemy>();
         int spriteIndex = Random.Range(0, AllEnemies.Count);
         enemy.SetupEnemy(AllEnemies[spriteIndex], SpawnPoints[freeSpawnPointIndex]);
         _currentEnemies++;

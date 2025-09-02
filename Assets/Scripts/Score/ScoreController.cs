@@ -28,13 +28,22 @@ public class ScoreController : MonoBehaviour
 	#endregion
 
 	[HideInInspector] public UnityEvent<long> OnScoreChanged = new();
+	public float KillingWithWeaknessScoreMultiplayer = 1.5f;
 
 	public long Score = 0;
 
-	public void OnEnemyKilled(IEnemy enemy)
+	private void OnEnemyKilled(IEnemy enemy)
 	{
-		Score += enemy.Score;
+		Score += calculateScoreFromIEnemy(enemy);
 		OnScoreChanged.Invoke(Score);
+	}
+
+	public long calculateScoreFromIEnemy(IEnemy enemy)
+	{
+		if (enemy.WasKilledWithWeakness)
+			return (long)(enemy.Score * KillingWithWeaknessScoreMultiplayer);
+		else 
+			return enemy.Score;
 	}
 
 
