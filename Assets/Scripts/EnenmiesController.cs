@@ -97,7 +97,7 @@ public class EnenmiesController : MonoBehaviour
     {
         for (int i = 0; i < SpawnPoints.Count; i++)
         {
-            if (spawnPoint != SpawnPoints[i]) continue;
+            if (spawnPoint != SpawnPoints[i]) continue; // ??? is spawnPoint not a reference already?
             
             SpawnPoints[i].IsOccupied = false;
             _currentEnemies--;
