@@ -23,9 +23,17 @@ public class ScoreController : MonoBehaviour
 	{
 		Instance = this;
 		GameEvents.EnemyKilled += OnEnemyKilled;
+		GameEvents.SoulUsed += UseSoul;
 	}
 
 	#endregion
+
+	private void UseSoul(SoulItem soul)
+	{
+		Score += soul.ScoreAfterUse;
+		OnScoreChanged.Invoke(Score);
+	}
+
 
 	[HideInInspector] public UnityEvent<long> OnScoreChanged = new();
 	public float KillingWithWeaknessScoreMultiplayer = 1.5f;
