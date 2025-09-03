@@ -38,7 +38,7 @@ public class UISteeringHelper : MonoBehaviour
     {
         if (_condition)
         {
-            var nav = SourceComponent.navigation;
+            Navigation nav = SourceComponent.navigation;
             nav.mode = Navigation.Mode.Explicit;
             nav.selectOnUp = SelectOnUpIfTrue;
             nav.selectOnDown = SelectOnDownIfTrue;
@@ -46,7 +46,7 @@ public class UISteeringHelper : MonoBehaviour
         }
         else
         {
-            var nav = SourceComponent.navigation;
+            Navigation nav = SourceComponent.navigation;
             nav.mode = Navigation.Mode.Explicit;
             nav.selectOnUp = SelectOnUpIfFalse;
             nav.selectOnDown = SelectOnDownIfFalse;
