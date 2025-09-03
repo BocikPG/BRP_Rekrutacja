@@ -1,12 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EnenmiesController : MonoBehaviour
 {
+
+    #region Singleton
+    private static EnenmiesController _instance;
+    public static EnenmiesController Instance
+    {
+        get
+        {
+            if (_instance == null) _instance = FindFirstObjectByType<EnenmiesController>();
+            return _instance;
+        }
+        set => _instance = value;
+    }
+
+    #endregion
+
     [SerializeField] private List<Sprite> AllEnemies;
     [SerializeField] private List<SpawnPoint> SpawnPoints;
     [SerializeField] private GameObject EnemyPrefab;
+
+    [HideInInspector] public List<IEnemy> enemies = new();
 
     private int _maxEnemies = 3;
     private int _currentEnemies = 0;
@@ -14,6 +32,8 @@ public class EnenmiesController : MonoBehaviour
     private void Awake()
     {
         ConfigureEnemiesController();
+
+        Instance = this;
     }
 
     private void Start()
@@ -44,8 +64,10 @@ public class EnenmiesController : MonoBehaviour
     private void EnemyKilled(IEnemy enemy)
     {
         FreeSpawnPoint(enemy.GetEnemyPosition());
+        enemies.Remove(enemy);
         DestroyKilledEnemy(enemy.GetEnemyObject());
         StartCoroutine(SpawnEnemyViaCor());
+        enemies[0].SelectCombat();
     }
 
     private void SpawnEnemies()
@@ -54,6 +76,8 @@ public class EnenmiesController : MonoBehaviour
         {
             SpawnEnemy();
         }
+
+        enemies[0].SelectCombat();
     }
 
     private IEnumerator SpawnEnemyViaCor()
@@ -74,18 +98,19 @@ public class EnenmiesController : MonoBehaviour
         for (int i = 0; i < SpawnPoints.Count; i++)
         {
             if (SpawnPoints[i].IsOccupied) continue;
-            
+
             freeSpawnPointIndex = i;
             break;
         }
 
         if (freeSpawnPointIndex == -1) return;
-        
+
         SpawnPoints[freeSpawnPointIndex].IsOccupied = true;
         SoulEnemy enemy = Instantiate(EnemyPrefab, SpawnPoints[freeSpawnPointIndex].Position.position, Quaternion.identity, transform).GetComponent<SoulEnemy>();
         int spriteIndex = Random.Range(0, AllEnemies.Count);
         enemy.SetupEnemy(AllEnemies[spriteIndex], SpawnPoints[freeSpawnPointIndex]);
         _currentEnemies++;
+        enemies.Add(enemy);
     }
 
     private void DestroyKilledEnemy(GameObject enemy)
@@ -98,7 +123,7 @@ public class EnenmiesController : MonoBehaviour
         for (int i = 0; i < SpawnPoints.Count; i++)
         {
             if (spawnPoint != SpawnPoints[i]) continue;
-            
+
             SpawnPoints[i].IsOccupied = false;
             _currentEnemies--;
             break;

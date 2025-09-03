@@ -1,11 +1,14 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SoulEnemy : MonoBehaviour, IEnemy
 {
     [SerializeField] private GameObject InteractionCanvas;
     [SerializeField] private GameObject InteractionPanelObject;
     [SerializeField] private GameObject ActionsPanelObject;
+    [SerializeField] private GameObject CombatButtonGameObject;
+    [SerializeField] private GameObject BowButtonGameObject;
     [SerializeField] private SpriteRenderer EnemySpriteRenderer;
 
     private SpawnPoint _enemyPosition;
@@ -44,6 +47,7 @@ public class SoulEnemy : MonoBehaviour, IEnemy
     {
         ActiveInteractionPanel(false);
         ActiveActionPanel(true);
+        SelectBow();
     }
 
     private void ActiveInteractionPanel(bool active)
@@ -85,6 +89,16 @@ public class SoulEnemy : MonoBehaviour, IEnemy
         UseSword();
     }
 
+    public void SelectCombat()
+    {
+        EventSystem.current.SetSelectedGameObject(CombatButtonGameObject);
+    }
+
+    private void SelectBow()
+    {
+        EventSystem.current.SetSelectedGameObject(BowButtonGameObject);
+    }
+
     #endregion
 }
 
@@ -93,4 +107,5 @@ public interface IEnemy
 {
     SpawnPoint GetEnemyPosition();
     GameObject GetEnemyObject();
+    void SelectCombat();
 }
