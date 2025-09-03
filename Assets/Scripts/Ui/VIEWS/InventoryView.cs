@@ -110,9 +110,6 @@ public class InventoryView : UiView
         else
         {
             //USE SOUL
-            Debug.Log(GameEvents.SoulUsed);
-            Debug.Log(_currentSoulInformation);
-            Debug.Log(_currentSoulInformation.soulItem);
             GameEvents.SoulUsed.Invoke(_currentSoulInformation.soulItem);
             RemoveSoul();
         }
