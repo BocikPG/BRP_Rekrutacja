@@ -15,7 +15,6 @@ public class ButtonImageChangerByDevice : MonoBehaviour
     public void Awake()
     {
         InputSystem.onActionChange += OnActionChange;
-        //InputSystem.onDeviceChange += OnDeviceChange;
     }
 
     private void OnActionChange(object obj, InputActionChange change)
@@ -34,7 +33,6 @@ public class ButtonImageChangerByDevice : MonoBehaviour
                     Image.overrideSprite = KeyboardTexture;
                     break;
             }
-            Image.enabled = true;
         }
     }
 }
