@@ -8,27 +8,32 @@ public class PopUpView : UiView
     [Header("Pop Up Elements")] public Text LabelText;
     public Text MessageText;
     public Button YesButton;
-    
+
     public override void Awake()
     {
+        base.Awake();
         GetBackButton().onClick.AddListener(() => DestroyView_OnClick(this));
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         GUIController.Instance.ActiveScreenBlocker(true, this);
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
         GUIController.Instance.ActiveScreenBlocker(false, this);
     }
-    
+
     public void ActivePopUpView(PopUpInformation popUpInfo)
     {
         ClearPopUp();
         LabelText.text = popUpInfo.Header;
         MessageText.text = popUpInfo.Message;
+
+        SetUpParent(popUpInfo.Parent);
 
         if (popUpInfo.UseOneButton)
         {
@@ -42,7 +47,19 @@ public class PopUpView : UiView
 
         ActiveView();
     }
-    
+
+    private void SetUpParent(UiView parent)
+    {
+        if (parent != null)
+        {
+            SetParentView(parent);
+
+            parent.OnDisable();
+            GetBackButton().onClick.AddListener(() => parent.OnEnable());
+            YesButton.onClick.AddListener(() => parent.OnEnable());
+        }
+    }
+
     private void ClearPopUp()
     {
         LabelText.text = "";
@@ -58,4 +75,5 @@ public struct PopUpInformation
     public string Header;
     public string Message;
     public Action Confirm_OnClick;
+    public UiView Parent;
 }

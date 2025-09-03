@@ -988,6 +988,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61569b2e0a0a4f64a93391072ea70395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPaused:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnPaused:
+    m_PersistentCalls:
+      m_Calls: []
   currentGameLocalization: 2
 --- !u!1001 &8146150603569056819
 PrefabInstance:
@@ -1759,7 +1765,7 @@ PrefabInstance:
     - target: {fileID: 8146150602394358071, guid: e56bfdd5b40390546bd93dc024a6c032,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00011380805
+      value: -0.0001086639
       objectReference: {fileID: 0}
     - target: {fileID: 8146150602791711613, guid: e56bfdd5b40390546bd93dc024a6c032,
         type: 3}

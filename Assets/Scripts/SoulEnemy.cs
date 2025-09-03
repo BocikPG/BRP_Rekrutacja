@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SoulEnemy : MonoBehaviour, IEnemy
 {
+    [SerializeField] private GameObject InteractionCanvas;
     [SerializeField] private GameObject InteractionPanelObject;
     [SerializeField] private GameObject ActionsPanelObject;
+    [SerializeField] private GameObject CombatButtonGameObject;
+    [SerializeField] private GameObject BowButtonGameObject;
     [SerializeField] private SpriteRenderer EnemySpriteRenderer;
     [SerializeField] private long ScoreAfterKill;
     [SerializeField] private WeaponEnum Weakness;
@@ -15,9 +20,22 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     public void SetupEnemy(Sprite sprite, SpawnPoint spawnPoint)
     {
+        GameControlller.Instance.OnPaused.AddListener(() => OnPausedEventHandler());
+        GameControlller.Instance.OnUnPaused.AddListener(() => OnUnPausedEventHandler());
+
         EnemySpriteRenderer.sprite = sprite;
         _enemyPosition = spawnPoint;
         gameObject.SetActive(true);
+    }
+
+    private void OnPausedEventHandler()
+    {
+        InteractionCanvas.SetActive(false);
+    }
+
+    private void OnUnPausedEventHandler()
+    {
+        InteractionCanvas.SetActive(true);
     }
 
     public SpawnPoint GetEnemyPosition()
@@ -34,6 +52,7 @@ public class SoulEnemy : MonoBehaviour, IEnemy
     {
         ActiveInteractionPanel(false);
         ActiveActionPanel(true);
+        SelectBow();
     }
 
     private void ActiveInteractionPanel(bool active)
@@ -71,6 +90,19 @@ public class SoulEnemy : MonoBehaviour, IEnemy
         UseWeapon(WeaponEnum.SWORD);
     }
 
+    public void SelectCombat()
+    {
+        if (CombatButtonGameObject.activeInHierarchy)
+            EventSystem.current.SetSelectedGameObject(CombatButtonGameObject);
+        else
+            SelectBow();
+    }
+
+    private void SelectBow()
+    {
+        EventSystem.current.SetSelectedGameObject(BowButtonGameObject);
+    }
+
     #endregion
 }
 
@@ -85,6 +117,7 @@ public interface IEnemy
 {
     SpawnPoint GetEnemyPosition();
     GameObject GetEnemyObject();
+    void SelectCombat();
     long Score { get;}
     bool WasKilledWithWeakness { get; set; }
 }
