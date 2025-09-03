@@ -28,6 +28,7 @@ public class EnenmiesController : MonoBehaviour
 
     private int _maxEnemies = 3;
     private int _currentEnemies = 0;
+    private bool selectOnNextSpawn = false;
 
     private void Awake()
     {
@@ -67,7 +68,10 @@ public class EnenmiesController : MonoBehaviour
         enemies.Remove(enemy);
         DestroyKilledEnemy(enemy.GetEnemyObject());
         StartCoroutine(SpawnEnemyViaCor());
-        enemies[0].SelectCombat();
+        if (enemies.Count > 0)
+            enemies[0].SelectCombat();
+        else
+            selectOnNextSpawn = true;
     }
 
     private void SpawnEnemies()
@@ -111,6 +115,12 @@ public class EnenmiesController : MonoBehaviour
         enemy.SetupEnemy(AllEnemies[spriteIndex], SpawnPoints[freeSpawnPointIndex]);
         _currentEnemies++;
         enemies.Add(enemy);
+
+        if(selectOnNextSpawn)
+        {
+            enemy.SelectCombat();
+            selectOnNextSpawn = false;
+        } 
     }
 
     private void DestroyKilledEnemy(GameObject enemy)

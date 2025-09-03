@@ -91,7 +91,10 @@ public class SoulEnemy : MonoBehaviour, IEnemy
 
     public void SelectCombat()
     {
-        EventSystem.current.SetSelectedGameObject(CombatButtonGameObject);
+        if (CombatButtonGameObject.activeInHierarchy)
+            EventSystem.current.SetSelectedGameObject(CombatButtonGameObject);
+        else
+            SelectBow();
     }
 
     private void SelectBow()
