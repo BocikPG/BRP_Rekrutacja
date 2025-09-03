@@ -43,8 +43,9 @@ public class InventoryView : UiView
         SelectElement(0);
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         ClearSoulInformation();
     }
 

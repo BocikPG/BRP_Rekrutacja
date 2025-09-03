@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UiView : MonoBehaviour
@@ -15,10 +16,29 @@ public class UiView : MonoBehaviour
     [SerializeField] public GameObject SelectedOnView;
 
     private UiView _parentView;
+    private InputAction _cancelAction;
+    private Action _onBackButtonAction;
 
     public virtual void Awake()
     {
         BackButon.onClick.AddListener(() => DisableView_OnClick(this));
+        _cancelAction = InputSystem.actions.FindAction("Cancel");
+    }
+
+    public virtual void OnEnable()
+    {
+        if(_cancelAction != null) _cancelAction.performed += OnCancel;
+    }
+
+    public virtual void OnDisable()
+    {
+        if(_cancelAction != null) _cancelAction.performed -= OnCancel;
+    }
+
+    private void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (_onBackButtonAction != null) _onBackButtonAction();
+        this.DisableView();
     }
 
     public void ActiveView_OnClick(UiView viewToActive)
@@ -50,7 +70,11 @@ public class UiView : MonoBehaviour
 
     public void ActiveView(Action onBackButtonAction = null)
     {
-        if (onBackButtonAction != null) BackButon.onClick.AddListener(() => onBackButtonAction());
+        if (onBackButtonAction != null)
+        {
+            _onBackButtonAction = onBackButtonAction;
+            BackButon.onClick.AddListener(() => onBackButtonAction());
+        }
 
         if (!gameObject.activeSelf) this.ActiveView(true);
 
