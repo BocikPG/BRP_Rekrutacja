@@ -12,7 +12,7 @@ Cofanie standardowo pod ESC/B/kółku.
 
 Ale są też ikonki (ale tylko na klawę i xbox'a :P ) żeby łatwiej się połapać.
 
-##Import
+## Import
 
 Zaimportowałem DOTween do animacji zdobywania punktów.
 
